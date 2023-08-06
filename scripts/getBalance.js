@@ -5,22 +5,23 @@
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
 const hre = require("hardhat");
-const tokenContractJSON = require("../artifacts/contracts/MetaToken.sol/MetaToken.json");
+const tokenContractJSON = require("../artifacts/contracts/VALNFT.sol/VALNFT.json");
 
-const tokenAddress = ""; // place your erc20 contract address here
+const tokenAddress = "0xC36D68593d53e8EDFD5f9aa04Fc76124B17235CB"; 
 const tokenABI = tokenContractJSON.abi;
-const walletAddress = ""; // place your public address for your wallet here
+const walletAddress = "0xe5A1359167d585Fea1a88AE6178a9e9c29B3d6dc"; // place your public address for your wallet here
 
 async function main() {
 
-    const token = await hre.ethers.getContractAt(tokenABI, tokenAddress);
+  const myContract = await hre.ethers.getContractAt(tokenABI, tokenAddress);
+  const count = await myContract.balanceOf(walletAddress); // It will return number of NFTs in wallet
 
-    console.log("You now have: " + await token.balanceOf(walletAddress) + " tokens");
-  }
-  
-  // We recommend this pattern to be able to use async/await everywhere
-  // and properly handle errors.
-  main().catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  });
+  console.log("You now have: " + count.toString() + " NFTs in your Wallet!");
+}
+
+// We recommend this pattern to be able to use async/await everywhere
+// and properly handle errors.
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
